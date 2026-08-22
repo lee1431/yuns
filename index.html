@@ -2,93 +2,234 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="사진관 스튜디오 포트폴리오와 촬영 안내">
-  <title>STUDIO — Photography</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#11100e">
+  <meta name="description" content="충주 윤스튜디오. 가족사진, 프로필, 증명·여권사진, 우정사진, 광고·제품사진 촬영. 충북 충주시 갱고개로 138. 043-852-6622">
+  <meta name="keywords" content="충주사진관, 충주스튜디오, 윤스튜디오, 충주증명사진, 충주여권사진, 충주가족사진, 충주우정사진, 충주프로필사진">
+  <meta property="og:title" content="윤스튜디오 | 충주 사진관">
+  <meta property="og:description" content="오래 남을 사진을 정성스럽게. 충주 윤스튜디오.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://yunstudio.co.kr/">
+  <link rel="canonical" href="https://yunstudio.co.kr/">
+  <title>윤스튜디오 | 충주 사진관 · 가족사진 · 증명사진 · 프로필</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./assets/style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "윤스튜디오",
+    "alternateName": "YUN STUDIO",
+    "url": "http://yunstudio.co.kr/",
+    "telephone": "+82-43-852-6622",
+    "foundingDate": "1998-12",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "갱고개로 138",
+      "addressLocality": "충주시",
+      "addressRegion": "충청북도",
+      "addressCountry": "KR"
+    },
+    "areaServed": "충주시",
+    "description": "충주 지역의 가족사진, 프로필, 증명·여권사진, 우정사진, 광고·제품사진 촬영 스튜디오."
+  }
+  </script>
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="./">STUDIO</a>
+  <header class="site-header" id="siteHeader">
+    <a class="brand" href="./" aria-label="윤스튜디오 홈">
+      <span class="brand-en">YUN</span>
+      <span class="brand-ko">윤스튜디오</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="주 메뉴">
+      <a href="#works">WORK</a>
+      <a href="#studio">STUDIO</a>
+      <a href="#location">LOCATION</a>
+    </nav>
+
     <div class="header-actions">
-      <a class="text-link" href="#about">Studio</a>
-      <a class="booking-link" href="#contact">촬영 문의</a>
-      <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기">☰</button>
+      <a class="booking-link" href="tel:0438526622">043.852.6622</a>
+      <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기"><span></span><span></span></button>
     </div>
   </header>
 
   <aside class="drawer" id="drawer" aria-hidden="true">
     <button class="drawer-close" id="drawerClose" aria-label="메뉴 닫기">×</button>
     <div class="drawer-inner">
-      <p class="eyebrow">WORKS</p>
+      <p class="eyebrow light">YUN STUDIO · CHUNGJU</p>
       <nav id="drawerCategories" class="drawer-nav"></nav>
+      <div class="drawer-rule"></div>
       <div class="drawer-sub">
-        <a href="#about">STUDIO</a>
-        <a href="#contact">CONTACT</a>
+        <a href="#studio">STUDIO</a>
+        <a href="#location">LOCATION</a>
+        <a href="tel:0438526622">CALL</a>
       </div>
+      <p class="drawer-address">충북 충주시 갱고개로 138<br>043-852-6622</p>
     </div>
   </aside>
 
   <main>
     <section class="hero" id="hero">
       <div class="hero-media" id="heroMedia">
-        <div class="placeholder hero-placeholder"></div>
+        <div class="hero-placeholder">
+          <div class="hero-placeholder-mark">Y</div>
+        </div>
       </div>
+      <div class="hero-shade"></div>
+
+      <div class="hero-top-note">
+        <span>CHUNGJU, KOREA</span>
+        <span>EST. 1998</span>
+      </div>
+
       <div class="hero-copy">
-        <p class="eyebrow">PHOTOGRAPHY STUDIO</p>
-        <h1>당신의 시간을<br>사진으로 남깁니다.</h1>
-        <a href="#works" class="hero-cta">VIEW WORKS ↓</a>
+        <p class="eyebrow light">PORTRAIT · FAMILY · ID · COMMERCIAL</p>
+        <h1>오래 남을 사진은<br><em>시간이 지나도 좋습니다.</em></h1>
+        <p class="hero-desc">충주에서 사람과 순간을 기록해온 윤스튜디오.</p>
+        <div class="hero-links">
+          <a href="#works" class="hero-cta">작업 보기 <span>↓</span></a>
+          <a href="tel:0438526622" class="hero-cta subtle">촬영 문의</a>
+        </div>
       </div>
+
+      <div class="scroll-note"><span></span> SCROLL</div>
+    </section>
+
+    <section class="intro-band">
+      <p>사진 한 장이 오래 남는다는 것을 알기에,</p>
+      <strong>사람다운 표정과 자연스러운 순간에 집중합니다.</strong>
+      <span>YUN STUDIO · CHUNGJU</span>
     </section>
 
     <section class="section services-section">
+      <div class="section-number">01</div>
       <div class="section-head">
-        <p class="eyebrow">SERVICES</p>
-        <h2>어떤 사진을 찾으세요?</h2>
+        <div>
+          <p class="eyebrow">PHOTOGRAPHY</p>
+          <h2>무엇을 남기고<br>싶으신가요?</h2>
+        </div>
+        <p class="section-description">가족의 오늘부터 나를 보여주는 프로필, 정확함이 필요한 증명·여권사진, 브랜드와 제품을 위한 상업 촬영까지.</p>
       </div>
       <div id="serviceGrid" class="service-grid"></div>
     </section>
 
     <section class="section works-section" id="works">
-      <div class="section-head split">
+      <div class="section-number">02</div>
+      <div class="section-head work-head">
         <div>
           <p class="eyebrow">SELECTED WORK</p>
-          <h2>최근 작업</h2>
+          <h2>윤스튜디오의<br>최근 작업.</h2>
         </div>
-        <div id="filterChips" class="filter-chips" aria-label="사진 카테고리 필터"></div>
+        <div class="work-controls">
+          <p>사진을 선택하면 같은 카테고리의 작업을 이어서 볼 수 있습니다.</p>
+          <div id="filterChips" class="filter-chips" aria-label="사진 카테고리 필터"></div>
+        </div>
       </div>
       <div id="gallery" class="gallery"></div>
-      <div id="emptyState" class="empty-state" hidden>등록된 사진이 없습니다.</div>
+      <div id="emptyState" class="empty-state" hidden>
+        <span>YUN STUDIO</span>
+        <strong>사진을 준비하고 있습니다.</strong>
+      </div>
     </section>
 
-    <section class="studio-section" id="about">
-      <div>
-        <p class="eyebrow">STUDIO</p>
-        <h2>사진을 찍는 시간까지<br>편안한 스튜디오.</h2>
+    <section class="studio-section" id="studio">
+      <div class="studio-title">
+        <span class="section-number light-number">03</span>
+        <p class="eyebrow light">ABOUT YUN STUDIO</p>
+        <h2>충주에서<br><em>오래도록 사진을.</em></h2>
       </div>
       <div class="studio-copy">
-        <p>가족사진, 프로필, 증명·여권, 광고·제품 촬영까지. 이 영역은 관리자 페이지와 별도로 운영자가 원하는 소개 문구로 교체하면 됩니다.</p>
-        <p class="muted">영업시간 · 위치 · 주차 · 예약 안내 등 실제 매장 정보를 여기에 배치하세요.</p>
+        <p class="studio-lead">윤스튜디오는 1998년부터 충주에서 사진을 기록해온 스튜디오입니다.</p>
+        <p>빠르게 소비되는 이미지보다 시간이 지나 다시 꺼내보게 되는 사진을 생각합니다. 편안한 촬영 과정, 단정한 결과물, 그리고 오래 남을 기록에 집중합니다.</p>
+        <dl class="studio-facts">
+          <div><dt>LOCATION</dt><dd>충북 충주시</dd></div>
+          <div><dt>SINCE</dt><dd>1998</dd></div>
+          <div><dt>CONTACT</dt><dd>043-852-6622</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="location-section" id="location">
+      <div class="location-main">
+        <span class="section-number">04</span>
+        <p class="eyebrow">VISIT US</p>
+        <h2>윤스튜디오에<br>오시는 길.</h2>
+        <address>
+          충청북도 충주시 갱고개로 138<br>
+          <span>연수동 1514 · 윤스튜디오</span>
+        </address>
+        <div class="location-actions">
+          <a class="round-button dark" href="https://map.naver.com/p/search/%EC%B6%A9%EC%A3%BC%20%EC%9C%A4%EC%8A%A4%ED%8A%9C%EB%94%94%EC%98%A4" target="_blank" rel="noopener">네이버 지도에서 보기 ↗</a>
+          <a class="round-button" href="tel:0438526622">043-852-6622</a>
+        </div>
+      </div>
+      <div class="location-card" aria-label="윤스튜디오 위치 안내">
+        <div class="map-grid"></div>
+        <div class="map-road road-a"></div>
+        <div class="map-road road-b"></div>
+        <div class="map-pin">
+          <span>Y</span>
+          <strong>YUN STUDIO</strong>
+          <small>CHUNGJU</small>
+        </div>
+        <div class="map-caption">
+          <span>36°58′N</span>
+          <span>127°56′E</span>
+        </div>
       </div>
     </section>
 
     <section class="contact-section" id="contact">
-      <p class="eyebrow">BOOKING</p>
-      <h2>촬영을 준비하고 계신가요?</h2>
-      <p>전화, 카카오톡, 네이버 예약 등 실제 예약 채널을 연결할 수 있습니다.</p>
-      <a class="big-button" href="tel:000-0000-0000">촬영 문의하기</a>
+      <p class="eyebrow">BOOKING & INQUIRY</p>
+      <h2>사진이 필요한 날,<br><em>편하게 문의하세요.</em></h2>
+      <p class="contact-copy">촬영 종류와 원하는 날짜를 말씀해주시면 안내해드립니다.</p>
+      <a class="contact-phone" href="tel:0438526622">
+        <span>CALL</span>
+        <strong>043. 852. 6622</strong>
+        <i>↗</i>
+      </a>
     </section>
   </main>
 
-  <footer>
-    <span>© STUDIO</span>
-    <span>Photography & Archive</span>
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <strong>YUN STUDIO</strong>
+      <span>윤스튜디오 · 충주</span>
+    </div>
+
+    <div class="footer-info">
+      <div>
+        <p class="footer-label">STUDIO</p>
+        <p>상호 윤스튜디오<br>대표 윤정섭<br></p>
+      </div>
+      <div>
+        <p class="footer-label">CONTACT</p>
+        <p><a href="tel:0438526622">043-852-6622</a><br><a href="http://yunstudio.co.kr/">yunstudio.co.kr</a></p>
+      </div>
+      <div>
+        <p class="footer-label">ADDRESS</p>
+        <p>충청북도 충주시 갱고개로 138<br>지번 · 충주시 연수동 1514</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© YUN STUDIO. ALL RIGHTS RESERVED.</span>
+      <span>CHUNGJU · REPUBLIC OF KOREA</span>
+    </div>
+    <!-- 사업자등록번호는 신뢰할 수 있는 공개 출처에서 확인되지 않아 미기재.
+         사업자등록증 확인 후 이 영역에 추가하세요. -->
   </footer>
 
-  <a href="#contact" class="mobile-booking">촬영 예약하기</a>
+  <a href="tel:0438526622" class="mobile-booking">
+    <span>촬영 문의</span>
+    <strong>043-852-6622</strong>
+  </a>
+
   <script src="./assets/config.js"></script>
   <script src="./assets/app.js"></script>
 </body>
