@@ -16,6 +16,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3yns0pNGGJ40ZukBw7WPakXEGwSYo=" crossorigin="">
   <link rel="stylesheet" href="./assets/style.css">
 
   <script type="application/ld+json">
@@ -168,15 +169,8 @@
           <a class="round-button" href="tel:0438526622">043-852-6622</a>
         </div>
       </div>
-      <div class="location-card" aria-label="윤스튜디오 위치 안내">
-        <div class="map-grid"></div>
-        <div class="map-road road-a"></div>
-        <div class="map-road road-b"></div>
-        <div class="map-pin">
-          <span>Y</span>
-          <strong>YUN STUDIO</strong>
-          <small>CHUNGJU</small>
-        </div>
+      <div class="location-card" aria-label="윤스튜디오 위치 지도">
+        <div id="studioMap" class="studio-map" role="region" aria-label="충주시 예성로 352 윤스튜디오 지도"></div>
         <div class="map-caption">
           <span>36°58′N</span>
           <span>127°56′E</span>
@@ -231,6 +225,7 @@
   </a>
 
   <script src="./assets/config.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="./assets/app.js"></script>
 </body>
 </html>
