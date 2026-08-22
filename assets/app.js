@@ -116,4 +116,50 @@ document.getElementById("menuBtn").addEventListener("click", openDrawer);
 document.getElementById("drawerClose").addEventListener("click", closeDrawer);
 document.addEventListener("keydown", e => { if(e.key === "Escape") closeDrawer(); });
 
+function initStudioMap(){
+  const mapElement = document.getElementById("studioMap");
+  if(!mapElement || typeof L === "undefined") return;
+
+  // 충주시 예성로 352. 위치 보정이 필요하면 아래 두 좌표만 수정하면 됩니다.
+  const studioPosition = [36.98145, 127.92855];
+  const map = L.map(mapElement, {
+    center: studioPosition,
+    zoom: 17,
+    zoomControl: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    keyboard: true,
+    attributionControl: true
+  });
+
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    subdomains: "abcd",
+    maxZoom: 20,
+    attribution: "&copy; OpenStreetMap &copy; CARTO"
+  }).addTo(map);
+
+  L.control.zoom({position: "topright"}).addTo(map);
+
+  const markerIcon = L.divIcon({
+    className: "yun-map-marker",
+    html: `<div class="yun-marker">
+      <span class="yun-marker-pin"><b>Y</b></span>
+      <strong class="yun-marker-label">YUN STUDIO<small>CHUNGJU</small></strong>
+    </div>`,
+    iconSize: [72, 116],
+    iconAnchor: [36, 64]
+  });
+
+  L.marker(studioPosition, {
+    icon: markerIcon,
+    title: "윤스튜디오",
+    alt: "윤스튜디오 위치"
+  }).addTo(map);
+
+  mapElement.addEventListener("focus", () => map.scrollWheelZoom.enable());
+  mapElement.addEventListener("blur", () => map.scrollWheelZoom.disable());
+  window.addEventListener("resize", () => map.invalidateSize(), {passive: true});
+}
+
+initStudioMap();
 loadSite();
