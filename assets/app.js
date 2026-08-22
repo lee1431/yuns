@@ -121,7 +121,7 @@ function initStudioMap(){
   if(!mapElement || typeof L === "undefined") return;
 
   // 충주시 예성로 352. 위치 보정이 필요하면 아래 두 좌표만 수정하면 됩니다.
-  const studioPosition = [36.98145, 127.92855];
+  const studioPosition = [36.98773, 127.93411];
   const map = L.map(mapElement, {
     center: studioPosition,
     zoom: 17,
