@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>STUDIO ADMIN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/admin.css">
+</head>
+<body>
+  <div id="loginView" class="login-view">
+    <form id="loginForm" class="login-card">
+      <div class="admin-mark">STUDIO / ADMIN</div>
+      <h1>사진 관리</h1>
+      <p>사장님 전용 관리자 페이지입니다.</p>
+      <label>관리자 비밀번호
+        <input id="passwordInput" type="password" autocomplete="current-password" required>
+      </label>
+      <button type="submit">로그인</button>
+      <div id="loginError" class="error"></div>
+    </form>
+  </div>
+
+  <div id="adminView" class="admin-view" hidden>
+    <header class="admin-header">
+      <div>
+        <strong>STUDIO / ADMIN</strong>
+        <span id="syncState">연결 확인 중</span>
+      </div>
+      <div class="admin-actions">
+        <a href="./index.html" target="_blank" rel="noopener">홈페이지 보기 ↗</a>
+        <button id="logoutBtn" class="ghost">로그아웃</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <section class="admin-title">
+        <div>
+          <p class="eyebrow">PHOTO LIBRARY</p>
+          <h1>사진을 끌어서 정리하세요.</h1>
+          <p>같은 칸 안에서 순서를 바꾸거나, 다른 카테고리로 끌어 놓으면 즉시 이동됩니다.</p>
+        </div>
+        <div class="primary-actions">
+          <button id="addCategoryBtn" class="secondary">+ 카테고리</button>
+          <button id="addPhotoBtn" class="primary">+ 사진 추가</button>
+        </div>
+      </section>
+
+      <section class="toolbar">
+        <input id="searchInput" type="search" placeholder="사진 제목 검색">
+        <div class="toolbar-note"><span id="photoCount">0</span>개의 사진</div>
+      </section>
+
+      <section id="categoryBoard" class="category-board"></section>
+    </main>
+  </div>
+
+  <dialog id="photoDialog" class="dialog">
+    <form id="photoForm" method="dialog">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">PHOTO</p>
+          <h2 id="photoDialogTitle">사진 추가</h2>
+        </div>
+        <button class="icon-btn" value="cancel" formnovalidate>×</button>
+      </div>
+      <input type="hidden" id="photoId">
+      <label>사진 파일
+        <input type="file" id="photoFile" accept="image/*">
+        <small>새 사진 등록 시 필수. 수정할 때는 비워두면 기존 사진을 유지합니다.</small>
+      </label>
+      <label>카테고리
+        <select id="photoCategory" required></select>
+      </label>
+      <label>제목
+        <input id="photoTitle" maxlength="80" placeholder="예: 봄 가족사진">
+      </label>
+      <label>설명
+        <textarea id="photoDescription" rows="3" maxlength="300" placeholder="선택사항"></textarea>
+      </label>
+      <div class="toggle-row">
+        <label class="check"><input id="photoVisible" type="checkbox" checked> 홈페이지 노출</label>
+        <label class="check"><input id="photoFeatured" type="checkbox"> 대표작</label>
+      </div>
+      <div class="dialog-actions">
+        <button value="cancel" class="secondary" formnovalidate>취소</button>
+        <button type="submit" class="primary">저장</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="categoryDialog" class="dialog small">
+    <form id="categoryForm" method="dialog">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">CATEGORY</p>
+          <h2 id="categoryDialogTitle">카테고리 추가</h2>
+        </div>
+        <button class="icon-btn" value="cancel" formnovalidate>×</button>
+      </div>
+      <input type="hidden" id="categoryId">
+      <label>카테고리 이름
+        <input id="categoryName" maxlength="40" required placeholder="예: 가족사진">
+      </label>
+      <label>영문/URL 이름
+        <input id="categorySlug" maxlength="50" required placeholder="예: family">
+      </label>
+      <label class="check"><input id="categoryVisible" type="checkbox" checked> 홈페이지에 노출</label>
+      <div class="dialog-actions">
+        <button value="cancel" class="secondary" formnovalidate>취소</button>
+        <button type="submit" class="primary">저장</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+  <script src="./assets/config.js"></script>
+  <script src="./assets/admin.js"></script>
+</body>
+</html>
