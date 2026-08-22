@@ -132,10 +132,9 @@ function initStudioMap(){
     attributionControl: true
   });
 
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-    subdomains: "abcd",
-    maxZoom: 20,
-    attribution: "&copy; OpenStreetMap &copy; CARTO"
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: "&copy; OpenStreetMap contributors"
   }).addTo(map);
 
   L.control.zoom({position: "topright"}).addTo(map);
@@ -158,7 +157,20 @@ function initStudioMap(){
 
   mapElement.addEventListener("focus", () => map.scrollWheelZoom.enable());
   mapElement.addEventListener("blur", () => map.scrollWheelZoom.disable());
-  window.addEventListener("resize", () => map.invalidateSize(), {passive: true});
+  const refreshMapSize = () => map.invalidateSize({pan: false, animate: false});
+
+  // 웹폰트·이미지·반응형 레이아웃으로 지도 칸의 크기가 바뀌어도
+  // 타일 위치를 다시 계산해 빈 사각형이 생기지 않도록 합니다.
+  requestAnimationFrame(refreshMapSize);
+  window.addEventListener("load", refreshMapSize, {once: true});
+  window.setTimeout(refreshMapSize, 250);
+  window.setTimeout(refreshMapSize, 900);
+  window.addEventListener("resize", refreshMapSize, {passive: true});
+
+  if("ResizeObserver" in window){
+    const mapResizeObserver = new ResizeObserver(refreshMapSize);
+    mapResizeObserver.observe(mapElement);
+  }
 }
 
 initStudioMap();
