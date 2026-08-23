@@ -103,8 +103,8 @@ function renderBoard(){
 
 function photoCard(p){
   return `<article class="photo-card" data-photo-id="${p.id}">
-    <div class="photo-thumb">
-      <img src="${escAttr(p.image_url)}" alt="">
+    <div class="photo-thumb" role="button" tabindex="0" aria-label="${escAttr(p.title || "사진")} 크게 보기">
+      <img src="${escAttr(p.image_url)}" alt="${escAttr(p.title || "윤스튜디오 사진")}">
       <div class="badges">
         ${p.featured ? `<span class="badge">★ 대표</span>` : ""}
         ${p.visible ? "" : `<span class="badge off">숨김</span>`}
@@ -142,6 +142,20 @@ function initSortables(){
       onEnd: savePhotoLayout
     });
     photoSortables.push(s);
+  });
+
+  document.querySelectorAll(".photo-thumb").forEach(thumb => {
+    const open = () => {
+      const id = Number(thumb.closest(".photo-card").dataset.photoId);
+      openPhotoLightbox(id);
+    };
+    thumb.addEventListener("click", open);
+    thumb.addEventListener("keydown", e => {
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        open();
+      }
+    });
   });
 
   document.querySelectorAll(".edit-photo").forEach(btn => {
@@ -298,3 +312,91 @@ function esc(v=""){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt
 function escAttr(v=""){return esc(v)}
 
 if(token) enterAdmin();
+
+
+let adminLightboxIndex = 0;
+
+function ensurePhotoLightbox(){
+  let modal = document.getElementById("photoLightbox");
+  if(modal) return modal;
+
+  modal = document.createElement("div");
+  modal.id = "photoLightbox";
+  modal.className = "photo-lightbox";
+  modal.hidden = true;
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("aria-label", "사진 크게 보기");
+  modal.innerHTML = `
+    <button class="lightbox-close" type="button" aria-label="닫기">×</button>
+    <button class="lightbox-nav lightbox-prev" type="button" aria-label="이전 사진">‹</button>
+    <figure class="lightbox-figure">
+      <img class="lightbox-image" alt="">
+      <figcaption class="lightbox-caption"></figcaption>
+    </figure>
+    <button class="lightbox-nav lightbox-next" type="button" aria-label="다음 사진">›</button>`;
+
+  modal.querySelector(".lightbox-close").onclick = closePhotoLightbox;
+  modal.querySelector(".lightbox-prev").onclick = () => moveAdminLightbox(-1);
+  modal.querySelector(".lightbox-next").onclick = () => moveAdminLightbox(1);
+  modal.addEventListener("click", e => {
+    if(e.target === modal) closePhotoLightbox();
+  });
+  document.body.appendChild(modal);
+  return modal;
+}
+
+function orderedAdminPhotos(){
+  return [...state.photos].sort((a,b) =>
+    Number(a.category_id) - Number(b.category_id) || Number(a.sort_order) - Number(b.sort_order)
+  );
+}
+
+function openPhotoLightbox(photoId){
+  const photos = orderedAdminPhotos();
+  const index = photos.findIndex(photo => Number(photo.id) === Number(photoId));
+  if(index < 0) return;
+  adminLightboxIndex = index;
+  const modal = ensurePhotoLightbox();
+  modal.hidden = false;
+  document.body.classList.add("lightbox-open");
+  renderAdminLightbox();
+  modal.querySelector(".lightbox-close").focus();
+}
+
+function renderAdminLightbox(){
+  const photos = orderedAdminPhotos();
+  if(!photos.length) return closePhotoLightbox();
+  adminLightboxIndex = (adminLightboxIndex + photos.length) % photos.length;
+  const photo = photos[adminLightboxIndex];
+  const modal = ensurePhotoLightbox();
+  const image = modal.querySelector(".lightbox-image");
+  image.src = photo.image_url;
+  image.alt = photo.title || "윤스튜디오 사진";
+  modal.querySelector(".lightbox-caption").textContent =
+    photo.title || photo.description || "제목 없음";
+  const showNav = photos.length > 1;
+  modal.querySelector(".lightbox-prev").hidden = !showNav;
+  modal.querySelector(".lightbox-next").hidden = !showNav;
+}
+
+function moveAdminLightbox(step){
+  adminLightboxIndex += step;
+  renderAdminLightbox();
+}
+
+function closePhotoLightbox(){
+  const modal = document.getElementById("photoLightbox");
+  if(!modal || modal.hidden) return;
+  modal.hidden = true;
+  modal.querySelector(".lightbox-image").removeAttribute("src");
+  document.body.classList.remove("lightbox-open");
+}
+
+document.addEventListener("keydown", e => {
+  const modal = document.getElementById("photoLightbox");
+  if(!modal || modal.hidden) return;
+  if(e.key === "Escape") closePhotoLightbox();
+  if(e.key === "ArrowLeft") moveAdminLightbox(-1);
+  if(e.key === "ArrowRight") moveAdminLightbox(1);
+});
