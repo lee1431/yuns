@@ -77,7 +77,7 @@ function renderGallery(filter){
   const gallery = document.getElementById("gallery");
   const empty = document.getElementById("emptyState");
 
-  gallery.innerHTML = items.map(p => `<figure class="gallery-item">
+  gallery.innerHTML = items.map(p => `<figure class="gallery-item" data-photo-id="${p.id}" role="button" tabindex="0" aria-label="${escapeAttr(p.title || "사진")} 크게 보기">
     <img src="${escapeAttr(p.image_url)}" alt="${escapeAttr(p.title || "윤스튜디오 촬영 사진")}" loading="lazy">
     <figcaption class="gallery-caption">
       <small>${escapeHtml((cats.get(p.category_id) || {}).name || "YUN STUDIO")}</small>
@@ -86,6 +86,17 @@ function renderGallery(filter){
   </figure>`).join("");
 
   empty.hidden = items.length > 0;
+
+  gallery.querySelectorAll(".gallery-item").forEach((item, index) => {
+    const open = () => openSiteLightbox(items, index);
+    item.addEventListener("click", open);
+    item.addEventListener("keydown", e => {
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        open();
+      }
+    });
+  });
 }
 
 function bindFilters(){
@@ -175,3 +186,101 @@ function initStudioMap(){
 
 initStudioMap();
 loadSite();
+
+
+let siteLightboxItems = [];
+let siteLightboxIndex = 0;
+let lightboxTouchStartX = null;
+
+function ensureSiteLightbox(){
+  let modal = document.getElementById("siteLightbox");
+  if(modal) return modal;
+
+  modal = document.createElement("div");
+  modal.id = "siteLightbox";
+  modal.className = "photo-lightbox";
+  modal.hidden = true;
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("aria-label", "작품 크게 보기");
+  modal.innerHTML = `
+    <button class="lightbox-close" type="button" aria-label="닫기">×</button>
+    <button class="lightbox-nav lightbox-prev" type="button" aria-label="이전 사진">‹</button>
+    <figure class="lightbox-figure">
+      <img class="lightbox-image" alt="">
+      <figcaption class="lightbox-caption">
+        <small></small>
+        <strong></strong>
+        <span></span>
+      </figcaption>
+    </figure>
+    <button class="lightbox-nav lightbox-next" type="button" aria-label="다음 사진">›</button>`;
+
+  modal.querySelector(".lightbox-close").onclick = closeSiteLightbox;
+  modal.querySelector(".lightbox-prev").onclick = () => moveSiteLightbox(-1);
+  modal.querySelector(".lightbox-next").onclick = () => moveSiteLightbox(1);
+  modal.addEventListener("click", e => {
+    if(e.target === modal) closeSiteLightbox();
+  });
+  modal.addEventListener("touchstart", e => {
+    lightboxTouchStartX = e.changedTouches[0].clientX;
+  }, {passive:true});
+  modal.addEventListener("touchend", e => {
+    if(lightboxTouchStartX === null) return;
+    const distance = e.changedTouches[0].clientX - lightboxTouchStartX;
+    lightboxTouchStartX = null;
+    if(Math.abs(distance) > 55) moveSiteLightbox(distance > 0 ? -1 : 1);
+  }, {passive:true});
+  document.body.appendChild(modal);
+  return modal;
+}
+
+function openSiteLightbox(items, index){
+  siteLightboxItems = items;
+  siteLightboxIndex = index;
+  const modal = ensureSiteLightbox();
+  modal.hidden = false;
+  document.body.classList.add("lightbox-open");
+  renderSiteLightbox();
+  modal.querySelector(".lightbox-close").focus();
+}
+
+function renderSiteLightbox(){
+  if(!siteLightboxItems.length) return closeSiteLightbox();
+  siteLightboxIndex =
+    (siteLightboxIndex + siteLightboxItems.length) % siteLightboxItems.length;
+  const photo = siteLightboxItems[siteLightboxIndex];
+  const category = visibleCategories().find(c => c.id === photo.category_id);
+  const modal = ensureSiteLightbox();
+  const image = modal.querySelector(".lightbox-image");
+  image.src = photo.image_url;
+  image.alt = photo.title || "윤스튜디오 촬영 사진";
+  modal.querySelector(".lightbox-caption small").textContent =
+    category?.name || "YUN STUDIO";
+  modal.querySelector(".lightbox-caption strong").textContent = photo.title || "";
+  modal.querySelector(".lightbox-caption span").textContent = photo.description || "";
+  const showNav = siteLightboxItems.length > 1;
+  modal.querySelector(".lightbox-prev").hidden = !showNav;
+  modal.querySelector(".lightbox-next").hidden = !showNav;
+}
+
+function moveSiteLightbox(step){
+  siteLightboxIndex += step;
+  renderSiteLightbox();
+}
+
+function closeSiteLightbox(){
+  const modal = document.getElementById("siteLightbox");
+  if(!modal || modal.hidden) return;
+  modal.hidden = true;
+  modal.querySelector(".lightbox-image").removeAttribute("src");
+  document.body.classList.remove("lightbox-open");
+}
+
+document.addEventListener("keydown", e => {
+  const modal = document.getElementById("siteLightbox");
+  if(!modal || modal.hidden) return;
+  if(e.key === "Escape") closeSiteLightbox();
+  if(e.key === "ArrowLeft") moveSiteLightbox(-1);
+  if(e.key === "ArrowRight") moveSiteLightbox(1);
+});
